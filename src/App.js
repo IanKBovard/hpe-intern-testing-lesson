@@ -1,26 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
 
-function App() {
+const add = (x, y) => x + y;
+
+const subtract = (x, y) => x - y;
+
+const fetch = (url) => {
+  // this fetched from an api
+  if (url === "hello") {
+    return ":)";
+  } else {
+    return ":(";
+  }
+};
+const onClick = (apiCall, urls) => {
+  return urls.map((url) => apiCall(url));
+};
+
+const App = () => {
+  const onSubmit = (count) => {
+    console.log(`${count} being delivered to api`);
+    return "success!";
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>This is the title</h1>
+      <Counter onSubmit={onSubmit} />
     </div>
   );
-}
+};
 
-export default App;
+const Counter = ({ onSubmit }) => {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <h1>Counting is rad!</h1>
+      <span data-testid="count">{count}</span>
+      <button
+        data-testid="increment-button"
+        onClick={() => setCount(count + 1)}
+      >
+        increment
+      </button>
+      <button
+        data-testid="decrement-button"
+        onClick={() => setCount(count - 1)}
+      >
+        decrement
+      </button>
+      <button onClick={() => onSubmit(count)}>Submit</button>
+    </div>
+  );
+};
+
+export { App, add, subtract, onClick, Counter };
